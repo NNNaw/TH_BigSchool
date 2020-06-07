@@ -18,7 +18,7 @@ namespace TH_BigSchool.Models
         {
         }
 
-        public static ApplicationDbContext Create()D:\Lập trình web\Thực hành - NAM\TH_BigSchool\TH_BigSchool\Controllers\
+        public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
