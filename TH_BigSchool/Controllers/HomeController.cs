@@ -13,7 +13,7 @@ namespace TH_BigSchool.Controllers
         public HomeController()
         {
             _dbContext = new ApplicationDbContext();
-        }
+        }//
         public ActionResult Index()
         {
             var upComingCourses = _dbContext.Courses
