@@ -3,7 +3,7 @@
     ViewBag.Title = "Home Page";
 }
 <div class="row">
-    <ul class="course">
+    <ul class="course" id="native">
         @foreach (var course in Model)
         {
             <li>
@@ -20,9 +20,28 @@
                     <span class="category">@course.Category.Name</span>
                 </div>
             </li>
-            @*<li>
-                @course.DateTime - @course.Lecturer.Name
-            </li>*@
+            
+          <button data-course-id="@course.Id" class="btn btn-danger btn-sm js-toggle-attendance">Going?</button>
         }
     </ul>
+
+    @section Scripts{
+       <script>
+           $(document).ready(function () {
+               $(".js-toggle-attendance").click(function (e) {
+                   var button = $(e.target);
+                   $.post("/api/attendances", {courseId: button.attr("data-course-id")})
+                       .done(function () {
+                           button
+                               .removeClass("btn-danger")
+                               .addClass("btn-info")
+                               .text("Going");
+                       })
+                       .fail(function () {
+                           alert("some thing failed");
+                       })
+               })
+           })
+        </script> 
+       }
 </div>

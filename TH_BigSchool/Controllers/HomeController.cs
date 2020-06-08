@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TH_BigSchool.Models;
+using System.Data.Entity;
 
 namespace TH_BigSchool.Controllers
 {
@@ -13,7 +14,7 @@ namespace TH_BigSchool.Controllers
         public HomeController()
         {
             _dbContext = new ApplicationDbContext();
-        }//
+        }
         public ActionResult Index()
         {
             var upComingCourses = _dbContext.Courses

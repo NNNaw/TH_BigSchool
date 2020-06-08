@@ -10,7 +10,7 @@
         @*<form class="form-group>*@
             @using (Html.BeginForm("Create", "Courses"))
             {
-                @Html.AntiForgeryToken()
+              //  @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 @Html.AntiForgeryToken()
                 <div class="form-group">
