@@ -1,59 +1,75 @@
 ﻿@model TH_BigSchool.ViewModels.CourseViewModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Following";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row">
-    <ul class="course" id="native">
-        @foreach (var course in Model.UpCommingCourses)
+<style>
+    .attending-content {
+        padding: 50px 0;
+    }
+
+    hr {
+        margin: 5px 0px;
+    }
+
+    .Date {
+        text-align: center;
+        background-color: rebeccapurple;
+        color: white;
+        width: 60px;
+        border-radius: 8px;
+    }
+
+    .Month, .Day {
+        padding: 10px 0px;
+    }
+
+    .Items {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .Details {
+        margin: 0px 20px;
+    }
+</style>
+<div class="row attending-content">
+    <h3>Danh Sách Khóa Học Tham Dự</h3>
+    <ul class="Course" id="native">
+        @foreach (var course in Model.LectureFollowing)
         {
-            <li>
-                <div class="date">
-                    <div class="month">
-                        @course.DateTime.ToString("MM")
-                    </div>
-                    <div class="day">
-                        @course.DateTime.ToString("dd")
-                    </div>
-                </div>
-                <div class="details">
+            <li class="Items">
+              
+                <div class="Details">
 
-                    <span class="lecturer">
-                        @course.Lecturer.Name
+                    <span class="Lecturer">
+                        <b> @course.Name</b>
                     </span>
 
-                  
+                    <span> - </span>
                     @if (Model.ShowAction)
                     {
-                        <button class="btn btn-danger btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
-                            Follow
+                        <button class="btn btn-danger btn-sm js-toggle-follow" data-user-id="@course.Id">
+                            
+                            @Html.ActionLink("UnFollow" , "DeleteFollowing", "Courses", new { id = course.Id}, null)
                         </button>
                     }
-
-                    <span class="category">
-                        @course.Category.Name
-                    </span>
-                    @if (Model.ShowAction)
-                    {
-                        <button data-course-id="@course.Id"
-                                class="btn btn-danger btn-sm js-toggle-attendance">
-                            Going?
-                        </button>
-                    }
-
+                   
                 </div>
             </li>
         }
     </ul>
 
-    @section Scripts
+    @*@section Scripts
         {
-       <script>
+        <script>
            $(document).ready(function () {
 
                $(".js-toggle-attendance").click(function (e) {
                 //   alert("nam");
                    var button = $(e.target);
-                 
+
                    $.post("/api/attendances", { courseId: button.attr("data-course-id") })
                        .done(function () {
                            button
@@ -81,7 +97,9 @@
 
            });
 
-        </script> 
+        </script>
 
-       }
+    }*@
 </div>
+
+

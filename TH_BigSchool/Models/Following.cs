@@ -9,6 +9,7 @@ namespace TH_BigSchool.Models
 {
     public class Following
     {
+       
         [Key]
         [Column(Order = 1)]
         public string FollowerId { get; set; }

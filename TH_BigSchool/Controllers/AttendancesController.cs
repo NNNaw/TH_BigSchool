@@ -13,7 +13,10 @@ namespace TH_BigSchool.Controllers
     [Authorize]
     public class AttendancesController : ApiController
     {
-        
+        public string Get()
+        {
+            return ("Nam");
+        }
         private ApplicationDbContext _dbContext;
         public AttendancesController()
         {
@@ -23,7 +26,8 @@ namespace TH_BigSchool.Controllers
         public IHttpActionResult Attend(AttendanceDto attendanceDto)
         {
             var userId = User.Identity.GetUserId();
-            if (_dbContext.Attendances.Any(a => a.AttendeeId == userId && a.CourseId == attendanceDto.CourseId))
+            if (_dbContext.Attendances.Any(a => a.AttendeeId == userId 
+            && a.CourseId == attendanceDto.CourseId))
                 return BadRequest("The Attendance already exists");
             var attendance = new Attendance
             {

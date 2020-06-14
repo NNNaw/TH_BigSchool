@@ -29,7 +29,7 @@ textarea {
 }
 
 /*Course layout*/
-.course{
+/*.course{
     list-style : none;
 }
 .course > li{
@@ -47,4 +47,4 @@ textarea {
     position : absolute;
     top: 0;
     left: 70px;
-}
+}*/

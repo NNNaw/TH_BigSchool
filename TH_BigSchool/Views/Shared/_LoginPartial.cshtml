@@ -12,8 +12,8 @@
             </a>
           @*  @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
             <ul class="dropdown-menu">
-                <li><a href="#">Course I'm Going</a></li>
-                <li><a href="#">Course I'm Flowing</a></li>
+                <li><a href="@Url.Action("Attending","Courses")">Course I'm Going</a></li>
+                <li><a href="@Url.Action("Following","Courses")">Lecture I'm Flowing</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
             </ul>
