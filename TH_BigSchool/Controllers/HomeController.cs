@@ -11,7 +11,7 @@ namespace TH_BigSchool.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext _dbContext;
+        readonly private ApplicationDbContext _dbContext;
         public HomeController()
         {
             _dbContext = new ApplicationDbContext();
@@ -19,6 +19,8 @@ namespace TH_BigSchool.Controllers
         public ActionResult Index()
         {
             var upComingCourses = _dbContext.Courses
+                .Where(x => x.IsCanceled == false
+                )
                 .Include(c => c.Lecturer)
                  .Include(c => c.Category)
                  .Where(c => c.DateTime > DateTime.Now);

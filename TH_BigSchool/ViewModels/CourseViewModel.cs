@@ -32,7 +32,7 @@ namespace TH_BigSchool.ViewModels
         public string Heading { get; set; }
         public string Action
         {
-            get { return (Id != 0) ? "Update" : "Create"; }
+            get { return (Id != 0) ? "UpdateCourse" : "Create"; }
         }
 
     }

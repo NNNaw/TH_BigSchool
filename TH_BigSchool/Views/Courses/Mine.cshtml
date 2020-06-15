@@ -8,91 +8,119 @@
 
 
 <style>
-    .course > li .action{
-       
-        left:70px;
-        position : absolute;
-        color : black;
-        border : 1px solid black;
+    .course > li .action {
+        left: 70px;
+        position: absolute;
+        color: black;
+        border: 1px solid black;
     }
+
     .course > li:hover .action {
-        display : block;
-        background-color : orange;
+        display: block;
+        background-color: orange;
         color: white;
-        border : 1px solid white;
+        border: 1px solid white;
     }
 </style>
 
-    <div class="row">
-        <h2>List Courses</h2>
-        <ul class="course" id="native">
-            @foreach (var course in Model)
-            {
-                <li>
-                    <div class="date">
-                        <div class="month">
-                            @course.DateTime.ToString("MM")
-                        </div>
-                        <div class="day">
-                            @course.DateTime.ToString("dd")
-                        </div>
-                    </div>
-                    <div class="details">
-
-                        <span class="lecturer">
-                            @course.Lecturer.Name
-                        </span>
-
-                        <span class="category">
-                            @course.Category.Name
-                      
-
-                    </div>
-                    <div class="action">
-                        <a href="@Url.Action("Edit","Courses",new { id=course.Id},null)">Edit</a> |
-                        <a href="@Url.Action("Delete","Courses",new { id=course.Id},null)">Delete</a>
-                    </div>
-                </li>
-            }
-        </ul>
-
-        @section Scripts
+<div class="row">
+    <h2>List Courses</h2>
+    <ul class="course" id="native">
+        @foreach (var course in Model)
         {
-            <script>
-                $(document).ready(function () {
+            <li>
+                <div class="date">
+                    <div class="month">
+                        @course.DateTime.ToString("MM")
+                    </div>
+                    <div class="day">
+                        @course.DateTime.ToString("dd")
+                    </div>
+                </div>
+                <div class="details">
 
-                    $(".js-toggle-attendance").click(function (e) {
-                        //   alert("nam");
-                        var button = $(e.target);
+                    <span class="lecturer">
+                        @course.Lecturer.Name
+                    </span>
 
-                        $.post("/api/attendances", { courseId: button.attr("data-course-id") })
-                            .done(function () {
-                                button
-                                    .removeClass("btn-danger")
-                                    .addClass("btn-info")
-                                    .text("IsGoing");
-                            })
-                            .fail(function () {
-                                alert("some thing failed");
-                            });
-                    });
+                    <span class="category">
+                        @course.Category.Name
 
-                    $(".js-toggle-follow").click(function (e) {
-                        //alert("nam");
-                        var button = $(e.target);
-                        $.post("/api/Followings", { followeeId: button.attr("data-user-id") })
-                            .done(function () {
-                                button.text("Following");
-                            })
-                            .fail(function () {
-                                alert("some thing failed");
-                            });
-                    });
+                        </span>
+</div>
+                <div class="action">
+                    <a href="@Url.Action("EditCourse","Courses",new { id=course.Id},null)">Edit</a> |
+                    @if (course.IsCanceled)
+                    {
+                        <a href="" class="js-canceled-course" data-course-id="@course.Id">
+                            Canceled
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="" class="js-cancel-course" data-course-id="@course.Id">
+                            Cancel
+                        </a>
+                    }
 
-
-                });
-
-            </script>
-
+                </div>
+            </li>
         }
-    </div>
+    </ul>
+
+
+</div>
+@section Scripts
+        {
+    <script>
+        $(document).ready(function () {
+
+            $(".js-cancel-course").click(function (e) {
+                e.preventDefault();
+                var link = $(e.target);
+                bootbox.confirm("Are you sure to cancel?",
+                    function () {
+                        $.ajax({
+                            url: "/api/Courses/" + link.attr("data-course-id"),
+                            method: "DELETE"
+                        })
+                            .done(function () {
+                                //link.parents("li").fadeOut(function () {
+                                //    $(this).remove();
+                                //});
+                                link.text("Canceled");
+                            })
+                            .fail(function () {
+                                alert("Somrthing fail");
+                            })
+                    });
+
+            });
+             $(".js-canceled-course").click(function (e) {
+                e.preventDefault();
+                var link = $(e.target);
+                bootbox.confirm("Are you sure to reopen?",
+                    function () {
+                        $.ajax({
+                            url: "/api/Courses/" + link.attr("data-course-id"),
+                            method: "PUT"
+                        })
+                            .done(function () {
+                                //link.parents("li").fadeOut(function () {
+                                //    $(this).remove();
+                                //});
+                                link.text("Cancel");
+                            })
+                            .fail(function () {
+                                alert("Somrthing fail");
+                            })
+                    });
+
+            });
+
+  });
+
+
+    </script>
+
+}

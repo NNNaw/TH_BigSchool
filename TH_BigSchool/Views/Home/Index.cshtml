@@ -2,46 +2,99 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<div class="row">
-    <ul class="course" id="native">
+    <style>
+        .attending-content {
+            padding: 50px 0;
+        }
+
+        hr {
+            margin: 5px 0px;
+        }
+        .Items{
+            margin-bottom : 20px;
+            list-style: none;
+          display: flex;
+            /*justify-content: space-around;*/
+        }
+        .Date {
+            text-align: center;
+            background-color: rebeccapurple;
+            color: white;
+            width: 60px;
+            border-radius: 8px;
+        }
+
+        .Month, .Day {
+            padding: 10px 0px;
+        }
+
+       
+        .Details {
+            display: flex;
+           align-items: center;
+            
+        }
+        .Lecturer, .Category {
+            margin : 0px 10px;
+        }
+        
+    </style>
+<div class="row attending-content">
+    <h3>List Courses</h3>
+    <ul class="Course" id="native">
         @foreach (var course in Model.UpCommingCourses)
         {
-            <li>
-                <div class="date">
-                    <div class="month">
-                        @course.DateTime.ToString("MM")
+          
+            
+                <li class="Items">
+                    <div class="Date">
+                        <div class="Month">
+                            @course.DateTime.ToString("MM")
+                        </div>
+                        <hr />
+                        <div class="Day">
+                            @course.DateTime.ToString("dd")
+                        </div>
                     </div>
-                    <div class="day">
-                        @course.DateTime.ToString("dd")
+                    <div class="Details">
+                        <div class="Lecture-content">
+                            <span class="Lecturer">
+                                @course.Lecturer.Name
+                            </span>
+
+
+                            @if (Model.ShowAction)
+                            {
+                                <button class="btn btn-danger btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
+                                    Follow
+                                </button>
+                            }
+                        </div>
+
+                        <div class="Course-content">
+                            <span class="Category">
+                                @course.Category.Name
+                            </span>
+                            @if (Model.ShowAction)
+                            {
+                                <button data-course-id="@course.Id"
+                                        class="btn btn-danger btn-sm js-toggle-attendance">
+                                    Going
+                                </button>
+                            }
+                        </div>
+                        <div class="detail-list">
+                          
+                                <button data-course-id="@course.Id">
+                                   @Html.ActionLink("Detail","DetailList","Courses",new { id = course.Id},null)
+                                </button>
+                           
+                        </div>
+
                     </div>
-                </div>
-                <div class="details">
+                </li>
+            
 
-                    <span class="lecturer">
-                        @course.Lecturer.Name
-                    </span>
-
-                  
-                    @if (Model.ShowAction)
-                    {
-                        <button class="btn btn-danger btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
-                            Follow
-                        </button>
-                    }
-
-                    <span class="category">
-                        @course.Category.Name
-                    </span>
-                    @if (Model.ShowAction)
-                    {
-                        <button data-course-id="@course.Id"
-                                class="btn btn-danger btn-sm js-toggle-attendance">
-                            Going?
-                        </button>
-                    }
-
-                </div>
-            </li>
         }
     </ul>
 
